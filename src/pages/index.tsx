@@ -7,13 +7,13 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>My page title</title>
+        <title>CycGods</title>
         <link rel="icon" href="/assets/Logo.png" sizes="any" />
       </Head>
       <div>
         <Navbars />
         <Homes />
-        <Footers />
+        {/* <Footers /> */}
       </div>
     </>
   );
