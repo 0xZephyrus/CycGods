@@ -25,7 +25,7 @@ const MintPage: FC = () => {
       <div>
         <MintNav />
         <div className="relative w-full min-h-screen md:h-screen flex flex-col items-center">
-          <div className=" min-w-max  absolute items-center justify-center flex pt-[90px] md:pt-[80px] pr-[0px] md:pr-[350px]">
+          <div className="  absolute items-center justify-center flex mt-[120px] md:mt-[100px] pr-[0px] md:pr-[350px]">
             <MintCard />
           </div>
           <Image
@@ -36,7 +36,7 @@ const MintPage: FC = () => {
             className="absolute bottom-0 right-0 hidden md:block"
           />
         </div>
-        <div className=" uppercas  font-semibold font-mono flex absolute bottom-5  left-10 space-x-5">
+        <div className=" uppercas  font-semibold font-mono flex absolute bottom-0 md:bottom-2  left-10 space-x-5">
           <Link
             href="/"
             className=" text-md opacity-80  hover:opacity-100 hover:scale-105"

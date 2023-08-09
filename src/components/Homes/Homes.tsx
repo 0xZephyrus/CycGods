@@ -16,7 +16,7 @@ const Homes = () => {
     >
       <div className=" hidden md:block text-[200px] mb-[250px]">CycGods</div>
       <Image
-        src="/assets/image/13.png"
+        src="/assets/image/9.png"
         width={isMobile ? 470 : 620}
         height={isMobile ? 470 : 620}
         alt="Loading"
@@ -28,9 +28,9 @@ const Homes = () => {
         <div className="flex flex-[0.5] justify-end items-center">
           <div className="left-[1%] bottom-0 max-w-[100%] max-h-[160px] absolute object-contain">
             <Image
-              src="/assets/image/13.png"
-              width={100}
-              height={100}
+              src="/assets/image/5.png"
+              width={110}
+              height={110}
               alt="mint"
             />
           </div>
@@ -42,7 +42,7 @@ const Homes = () => {
           </div>
         </div>
         <div className="flex flex-[0.5] justify-end items-center pr-[1em] h-full">
-          <button className="rounded-lg bg-white text-lg flex border-none w-[80%] h-[60%] bg-[rgba(38, 38, 38, 1)] font-bold justify-center cursor-pointer items-center gap-[10px]">
+          <button className="rounded-lg  text-lg flex border-none w-[90%] h-[70%] bg-[#f4fbff] text-black font-bold justify-center cursor-pointer items-center gap-[10px] hover:scale-105">
             <Link href="/mint">MINTING NOW</Link>
           </button>
         </div>
