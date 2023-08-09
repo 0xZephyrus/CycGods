@@ -1,19 +1,23 @@
 import Navbars from "@/components/Navbars";
 import Homes from "@/components/Homes";
 import Footers from "@/components/Footers";
-import Head from "next/head";
+import DocumentHead from "@/components/Molecules/DocumentHead";
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>CycGods</title>
-        <link rel="icon" href="/assets/Logo.png" sizes="any" />
-      </Head>
+      <DocumentHead
+        title="CycGods!"
+        description="CycGods!"
+        baseUrl="https://cycgods.vercel.app/"
+        favicon="/assets/Eyes.png"
+        siteName="CycGods"
+        image="/assets/Logo.png"
+      />
       <div>
         <Navbars />
         <Homes />
-        {/* <Footers /> */}
+        <Footers />
       </div>
     </>
   );
