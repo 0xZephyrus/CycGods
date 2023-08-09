@@ -1,14 +1,19 @@
-import React from "react";
-import { New_Rocker } from "next/font/google";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 
-const frijole = New_Rocker({ weight: "400", subsets: ["latin"] });
+import MovingText from "../MovingText";
 
-const Footers = () => {
+const Footers: React.FC = () => {
+  const footersRef = useRef(null);
+  const isInView = useInView(footersRef);
   return (
-    <div className=" bg-blue-50 w-screen h-[50px] z-20  flex justify-center items-center fixed bottom-0  ">
-      <div className=" text-black text-mono text-bold">
-        © 2023 <span className={`text-bold ${frijole.className}`}>CycGods</span>{" "}
-      </div>
+    <div
+      ref={footersRef}
+      className=" font-mono bg-gradient-to-r from-[#D4D2C2] to-[#c9a784] w-screen h-[50px] z-20  flex justify-center items-center fixed bottom-0  "
+    >
+      {isInView && (
+        <MovingText text="©'2023'CycGods // ©'2023'CycGods // ©'2023'CycGods // ©'2023'CycGods // ©'2023'CycGods // ©'2023'CycGods // ©'2023'CycGods // ©'2023'CycGods //  &nbsp;" />
+      )}
     </div>
   );
 };
