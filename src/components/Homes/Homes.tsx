@@ -20,7 +20,7 @@ const Homes = () => {
         className=" block md:hidden w-[80%] md:w-[30%]  bottom-0  fixed"
       />
       <div
-        className={`${sanchez.className} flex justify-between items-center w-[350px] md:w-[400px] h-[10%] fixed bottom-[10%] right-[4%] bg-[#c03540] rounded-[10px]`}
+        className={`${sanchez.className} flex justify-between items-center w-[350px] md:w-[400px] h-[10%] fixed bottom-[10%] right-[4%] bg-[#D46A54] rounded-[10px]`}
       >
         <div className="flex flex-[0.5] justify-end items-center">
           <div className="left-[1%] bottom-0 max-w-[100%] max-h-[160px] absolute object-contain">

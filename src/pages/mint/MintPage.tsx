@@ -27,7 +27,7 @@ const MintPage: FC = () => {
             <MintCard />
           </div>
           <Image
-            src={`/assets/image/13.png`}
+            src={`/assets/image/13back.png`}
             width={isMobile ? 250 : 420}
             height={isMobile ? 250 : 420}
             alt="mop and bucket"
