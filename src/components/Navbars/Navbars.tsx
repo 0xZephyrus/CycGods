@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Discord from "../@icon/Discord";
 import Twitter from "../@icon/Twitter";
-import OpenSea from "../@icon/Opensea";
 
 const Navbars: React.FC = () => {
   return (
