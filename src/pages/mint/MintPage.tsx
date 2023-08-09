@@ -6,6 +6,8 @@ import DocumentHead from "@/components/Molecules/DocumentHead";
 import Link from "next/link";
 import MintCard from "@/components/MintCard";
 import MintNav from "@/components/MintNav";
+import Twitter from "@/components/@icon/Twitter";
+import Discord from "@/components/@icon/Discord";
 
 const MintPage: FC = () => {
   const [winWidth] = useWindowSize();
@@ -23,7 +25,7 @@ const MintPage: FC = () => {
       <div>
         <MintNav />
         <div className="relative w-full min-h-screen md:h-screen flex flex-col items-center">
-          <div className="absolute items-center justify-center flex pt-[80px] md:pt-[80px] pr-[0px] md:pr-[300px]">
+          <div className=" min-w-max  absolute items-center justify-center flex pt-[90px] md:pt-[80px] pr-[0px] md:pr-[350px]">
             <MintCard />
           </div>
           <Image
@@ -33,11 +35,27 @@ const MintPage: FC = () => {
             alt="mop and bucket"
             className="absolute bottom-0 right-0 hidden md:block"
           />
+        </div>
+        <div className=" uppercas  font-semibold font-mono flex absolute bottom-5  left-10 space-x-5">
           <Link
             href="/"
-            className="absolute bottom-5  left-10 text-xl font-mono"
+            className=" text-md opacity-80  hover:opacity-100 hover:scale-105"
           >
             {`<- BACK HOME`}
+          </Link>
+          <Link
+            href="https://twitter.com/CycGods"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            <Discord className="w-7 opacity-80  hover:opacity-100 hover:scale-105" />
+          </Link>
+          <Link
+            href="https://twitter.com/CycGods"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            <Twitter className="w-7 opacity-80  hover:opacity-100 hover:scale-105" />
           </Link>
         </div>
       </div>

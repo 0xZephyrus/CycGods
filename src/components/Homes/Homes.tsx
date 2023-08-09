@@ -2,11 +2,14 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { New_Rocker, Sanchez } from "next/font/google";
 import Link from "next/link";
+import { useWindowSize } from "@/hooks/useWindowSize";
 
 const sanchez = Sanchez({ weight: "400", subsets: ["latin"] });
 const frijole = New_Rocker({ weight: "400", subsets: ["latin"] });
 
 const Homes = () => {
+  const [winWidth] = useWindowSize();
+  const isMobile = winWidth < 768;
   return (
     <div
       className={`${frijole.className} min-h-screen  w-screen  font-sans flex fixed items-center justify-center z-10 `}
@@ -14,10 +17,10 @@ const Homes = () => {
       <div className=" hidden md:block text-[200px] mb-[250px]">CycGods</div>
       <Image
         src="/assets/image/13.png"
-        width={1000}
-        height={1000}
+        width={isMobile ? 470 : 620}
+        height={isMobile ? 470 : 620}
         alt="Loading"
-        className=" block md:hidden w-[80%] md:w-[30%]  bottom-0  fixed"
+        className=" block md:hidden  bottom-0 fixed "
       />
       <div
         className={`${sanchez.className} flex justify-between items-center w-[350px] md:w-[400px] h-[10%] fixed bottom-[10%] right-[4%] bg-[#D46A54] rounded-[10px]`}
