@@ -6,7 +6,7 @@ import Loading from "@/components/Loader";
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
-import { base } from 'wagmi/chains'
+import { base, baseGoerli } from 'wagmi/chains'
 
 export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = React.useState(true);
@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return () => clearTimeout(timeout); // Clear the timeout when the component is unmounted
   }, []);
 
-  const chains = [base]
+  const chains = [base, baseGoerli]
   const projectId = '6a695714116d7d29cab5eaedecb82460'
 
   const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
