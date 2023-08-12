@@ -18,14 +18,14 @@ const config: Config = {
           "0%, 100%": { transform: "scale(1)", opacity: " 0.6" },
           "50%": { transform: "scale(1.2)", opacity: " 0.2" },
         },
-        // liquidglow: {
-        //   "0%, 100%": { transform: "scale(1)", opacity: " 0.6" },
-        //   "50%": { transform: "scale(1.2)", opacity: " 0.2"  },
-        // },
+        dayToNights: {
+          "0%": { Backgrounds: "bg-white" },
+          "50%": { Backgrounds: "bg-black" },
+          "100%": { Backgrounds: "bg-white" },
+        },
       },
       animation: {
-        "liquid-glass":
-          "liquidglass 2s ease-in-out infinite, 2s ease-in-out infinite;",
+        dayToNight: "dayToNights 10s infinite 1.5s",
       },
     },
   },

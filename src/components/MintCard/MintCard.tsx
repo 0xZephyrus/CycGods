@@ -10,12 +10,16 @@ import {
   usePrepareContractWrite,
   useConnect,
 } from "wagmi";
+import Link from "next/link";
+import { readContract } from "@wagmi/core";
 import ConnectWallet from "../ConnectButton/ConnectWallet";
 import { CYCGODS_ABI, CYCGODS_ADDRESS } from "@/abi";
 import { base, baseGoerli } from "wagmi/chains";
 import { parseEther } from "viem";
 import { utils } from "ethers";
-import { readContract } from "@wagmi/core";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { errorAlert, successAlert } from "@/utils/toastGroup";
 
 const MintCard = () => {
   const [totalTokensMinted, setTotalTokensMinted] = useState<bigint>(BigInt(0));
@@ -25,23 +29,31 @@ const MintCard = () => {
   const { error } = useConnect();
   const { chain } = useNetwork();
   const { isConnected } = useAccount();
+  const [isMintSuccess, setIsMintSuccess] = useState(false);
+  const [isErrors, setErrors] = useState(false);
 
-  const { config: mintConfig, error: Error, isSuccess } =
-    usePrepareContractWrite({
-      address: CYCGODS_ADDRESS,
-      abi: CYCGODS_ABI,
-      functionName: "mint",
-      args: [mintAmount],
-      value: parseEther((0.00071 * mintAmount).toString()),
-      chainId: baseGoerli.id,
-    });
+  const {
+    config: mintConfig,
+    error: Errors,
+    isSuccess: SuccessS,
+  } = usePrepareContractWrite({
+    address: CYCGODS_ADDRESS,
+    abi: CYCGODS_ABI,
+    functionName: "mint",
+    args: [mintAmount],
+    value: parseEther((0.00071 * mintAmount).toString()),
+    chainId: baseGoerli.id,
+  });
 
   const { write: publicWrite, data: publicData } = useContractWrite(mintConfig);
 
-  const { isLoading: publicTxLoading, isSuccess: publicMintSuccess } =
-    useWaitForTransaction({
-      hash: publicData?.hash,
-    });
+  const {
+    isError: publicTxError,
+    isLoading: publicTxLoading,
+    isSuccess: publicMintSuccess,
+  } = useWaitForTransaction({
+    hash: publicData?.hash,
+  });
 
   const handleDecrement = () => {
     if (mintAmount > 1) {
@@ -86,7 +98,20 @@ const MintCard = () => {
     getMinted();
     getMaxSupply();
     getPrice();
-  }, [chain, isConnected, isSuccess]);
+
+    if (publicMintSuccess) {
+      setIsMintSuccess(true);
+      successAlert(`
+      Successfully minted your NFT!
+    `);
+    }
+    if (Errors) {
+      setErrors(true);
+      errorAlert(`
+      Calling the minting function will fail for this reason: ${Errors.message}
+    `);
+    }
+  }, [chain, isConnected, SuccessS, Errors, publicMintSuccess]);
 
   return (
     <div className="w-[300px] rounded-xl  bg-gradient-to-br from-gray-300 to-white shadow-xl border-black border border-tertiary p-4">
@@ -94,14 +119,6 @@ const MintCard = () => {
         <ConnectWallet />
       </div>
       <div className="flex justify-center p-4">
-        {/* <video src="/assets/CycGods.mov" controls autoPlay loop muted /> */}
-        {/* <Image
-          src="/assets/CycGods.gif"
-          width={100}
-          height={100}
-          alt="Mint"
-          className="w-[250px]"
-        /> */}
         <img
           alt="Mint"
           src="/assets/CycGods.gif"
@@ -117,9 +134,23 @@ const MintCard = () => {
         </div>
         <div className="flex flex-col">
           <p className="text-tertiary uppercase font-semibold text-xs">Price</p>
-          <p className="font-primaryBold text-tertiary text-sm">{utils.formatEther(Price)} ETH</p>
+          <p className="font-primaryBold text-tertiary text-sm">
+            {utils.formatEther(Price)} ETH
+          </p>
         </div>
       </div>
+
+      {publicMintSuccess && (
+        <div className=" text-[#0052FF] flex justify-center items-center">
+          <Link
+            target="blank"
+            href={`https://goerli.basescan.org/tx/${publicData?.hash}`}
+          >
+            Basescan
+          </Link>
+        </div>
+      )}
+
       <div className="mb-1 flex items-center justify-center space-x-2 py-2">
         <button
           onClick={handleDecrement}
@@ -141,28 +172,21 @@ const MintCard = () => {
         </button>
       </div>
       <div className="px-3 pb-3">
-        {!publicTxLoading && (
-          <button
-            disabled={!publicWrite}
-            onClick={() => publicWrite?.()}
-            className="w-full h-[32px] rounded-lg bg-black font-primaryBold text-primary hover:scale-105 transition duration-300 ease-in-out transform focus:outline-none focus:ring focus:ring-offset-1 focus:ring-black text-xs"
-          >
-            <p className="text-white uppercase font-semibold">
-              {publicTxLoading ? "Waiting for minting..." : "mint"}
-            </p>
-          </button>
-        )}
+        <button
+          disabled={!publicWrite}
+          onClick={() => publicWrite?.()}
+          className="w-full h-[32px] rounded-lg bg-black font-primaryBold text-primary hover:scale-105 transition duration-300 ease-in-out transform focus:outline-none focus:ring focus:ring-offset-1 focus:ring-black text-xs"
+        >
+          <p className="text-white uppercase font-semibold">
+            {publicTxLoading
+              ? "Waiting for minting..."
+              : publicTxError
+              ? "Transaction error"
+              : "mint"}
+          </p>
+        </button>
       </div>
-      {publicTxLoading && publicData && (
-        <p>The transaction was sent! The hash:{publicData.hash}</p>
-      )}
-      {Error && (
-        <p>
-          Calling the presale minting function will fail for this reason:
-          {Error.message}
-        </p>
-      )}
-      <p className="error">{error && <span>{error.message}</span>}</p>
+      <ToastContainer />
     </div>
   );
 };

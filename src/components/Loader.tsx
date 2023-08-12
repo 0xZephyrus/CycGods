@@ -4,7 +4,7 @@ const frijole = New_Rocker({ weight: "400", subsets: ["latin"] });
 
 const Loading: React.FC = () => {
   return (
-    <div className="absolute flex justify-center items-center w-screen h-screen overflow-hidden my-auto backdrop-blur-md bg-white/30 z-50">
+    <div className="absolute flex justify-center items-center w-screen h-screen overflow-hidden my-auto backdrop-blur-md animate-dayToNight bg-white/30 z-50">
       <div
         className="fixed inset-0 z-50 flex flex-col items-center justify-center"
         style={{
