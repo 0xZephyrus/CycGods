@@ -1,5 +1,5 @@
 import { Abi } from "viem";
-
+export const CYCGODS_ADDRESS = "0x8b0d0b790b3f442d298770b669fcfeb5a4f16085";
 export const CYCGODS_ABI = [
   {
     inputs: [],

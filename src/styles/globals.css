@@ -66,3 +66,10 @@ button {
 button:disabled {
   color: gray;
 }
+
+.loader {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  max-width: 50vw;
+}

@@ -1,1 +1,1 @@
-export { CYCGODS_ABI } from "./CycGodsAbi";
+export { CYCGODS_ABI, CYCGODS_ADDRESS } from "./CycGodsAbi";
