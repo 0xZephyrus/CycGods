@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   const { chains, publicClient } = configureChains(
-    [base, baseGoerli],
+    [baseGoerli, base],
     [publicProvider()]
   );
 

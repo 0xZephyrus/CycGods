@@ -14,14 +14,19 @@ import ConnectWallet from "../ConnectButton/ConnectWallet";
 import { CYCGODS_ABI, CYCGODS_ADDRESS } from "@/abi";
 import { base, baseGoerli } from "wagmi/chains";
 import { parseEther } from "viem";
+import { utils } from "ethers";
+import { readContract } from "@wagmi/core";
 
 const MintCard = () => {
-  const [totalTokensMinted, setTotalTokensMinted] = useState(0);
-  const [Price, setPrice] = useState(0);
+  const [totalTokensMinted, setTotalTokensMinted] = useState<bigint>(BigInt(0));
+  const [Price, setPrice] = useState<bigint>(BigInt(0));
+  const [maxSupply, setMaxSupply] = useState<bigint>(BigInt(0));
   const [mintAmount, setMintAmount] = useState(1);
   const { error } = useConnect();
+  const { chain } = useNetwork();
+  const { isConnected } = useAccount();
 
-  const { config: mintConfig, error: publicMintContractError } =
+  const { config: mintConfig, error: Error, isSuccess } =
     usePrepareContractWrite({
       address: CYCGODS_ADDRESS,
       abi: CYCGODS_ABI,
@@ -50,35 +55,38 @@ const MintCard = () => {
     }
   };
 
-  const GetPrice = useContractRead({
-    address: CYCGODS_ADDRESS,
-    abi: CYCGODS_ABI,
-    functionName: "mintPrice",
-    onSuccess(data: string) {
-      console.log("token data:", parseInt(data));
-    },
-  });
-  useEffect(() => {
-    if (GetPrice && GetPrice.data) {
-      const parsedGetPrice = parseInt(GetPrice.data);
-      setPrice(parsedGetPrice);
-    }
-  }, [GetPrice]);
+  const getMinted = async () => {
+    let minted = await readContract({
+      address: CYCGODS_ADDRESS,
+      abi: CYCGODS_ABI,
+      functionName: "numberOfToken",
+    });
+    setTotalTokensMinted(minted as bigint);
+  };
 
-  const GetTotalMinted = useContractRead({
-    address: CYCGODS_ADDRESS,
-    abi: CYCGODS_ABI,
-    functionName: "numberOfToken",
-    onSuccess(data: string) {
-      console.log("token data:", parseInt(data));
-    },
-  });
+  const getMaxSupply = async () => {
+    let supply = await readContract({
+      address: CYCGODS_ADDRESS,
+      abi: CYCGODS_ABI,
+      functionName: "MAX_SUPPLY",
+    });
+    setMaxSupply(supply as bigint);
+  };
+
+  const getPrice = async () => {
+    let price = await readContract({
+      address: CYCGODS_ADDRESS,
+      abi: CYCGODS_ABI,
+      functionName: "mintPrice",
+    });
+    setPrice(price as bigint);
+  };
+
   useEffect(() => {
-    if (GetTotalMinted && GetTotalMinted.data) {
-      const parsedGetTotalMinted = parseInt(GetTotalMinted.data);
-      setTotalTokensMinted(parsedGetTotalMinted);
-    }
-  }, [GetTotalMinted]);
+    getMinted();
+    getMaxSupply();
+    getPrice();
+  }, [chain, isConnected, isSuccess]);
 
   return (
     <div className="w-[300px] rounded-xl  bg-gradient-to-br from-gray-300 to-white shadow-xl border-black border border-tertiary p-4">
@@ -109,7 +117,7 @@ const MintCard = () => {
         </div>
         <div className="flex flex-col">
           <p className="text-tertiary uppercase font-semibold text-xs">Price</p>
-          <p className="font-primaryBold text-tertiary text-sm">{Price}</p>
+          <p className="font-primaryBold text-tertiary text-sm">{utils.formatEther(Price)} ETH</p>
         </div>
       </div>
       <div className="mb-1 flex items-center justify-center space-x-2 py-2">
@@ -148,10 +156,10 @@ const MintCard = () => {
       {publicTxLoading && publicData && (
         <p>The transaction was sent! The hash:{publicData.hash}</p>
       )}
-      {publicMintContractError && (
+      {Error && (
         <p>
           Calling the presale minting function will fail for this reason:
-          {publicMintContractError.message}
+          {Error.message}
         </p>
       )}
       <p className="error">{error && <span>{error.message}</span>}</p>
