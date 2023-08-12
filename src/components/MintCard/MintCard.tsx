@@ -24,8 +24,14 @@ const MintCard = () => {
         <p className="text-white uppercase font-semibold text-sm">Mint Live</p>
       </div>
       <div className="flex justify-center p-4">
-        <video src="/assets/CycGods.mov" controls autoPlay loop muted />
-        {/* <Image src="/assets/image/5.png" width={180} height={180} alt="Mint" /> */}
+        {/* <video src="/assets/CycGods.mov" controls autoPlay loop muted /> */}
+        <Image
+          src="/assets/CycGods.gif"
+          width={100}
+          height={100}
+          alt="Mint"
+          className="w-[250px]"
+        />
       </div>
       <div className="h-12 flex items-center justify-between px-3">
         <div className="flex flex-col">
