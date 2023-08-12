@@ -43,7 +43,7 @@ const Homes = () => {
         </div>
         <div className="flex flex-[0.5] justify-end items-center pr-[1em] h-full">
           <button className="rounded-lg  text-lg flex border-none w-[90%] h-[70%] bg-[#f4fbff] text-black font-bold justify-center cursor-pointer items-center gap-[10px] hover:scale-105">
-            <Link href="/mint">MINTING NOW</Link>
+            <Link href="/">MINTING NOW</Link>
           </button>
         </div>
       </div>
