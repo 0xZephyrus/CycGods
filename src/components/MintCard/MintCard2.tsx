@@ -3,13 +3,13 @@ import { Web3Button, useWeb3Modal } from "@web3modal/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
-  useAccount,
-  useConnect,
-  useContractRead,
-  useContractWrite,
   useNetwork,
-  usePrepareContractWrite,
+  useAccount,
+  useContractRead,
+  useContractEvent,
+  useContractWrite,
   useWaitForTransaction,
+  usePrepareContractWrite,
 } from "wagmi";
 import { readContract } from "@wagmi/core";
 import { base, baseGoerli } from "wagmi/chains";
