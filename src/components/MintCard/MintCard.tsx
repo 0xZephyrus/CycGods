@@ -15,7 +15,7 @@ import { readContract } from "@wagmi/core";
 import ConnectWallet from "../ConnectButton/ConnectWallet";
 import { CYCGODS_ABI, CYCGODS_ADDRESS } from "@/abi";
 import { base, baseGoerli } from "wagmi/chains";
-import { parseEther } from "viem";
+import { Address, parseEther } from "viem";
 import { utils } from "ethers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,10 +25,11 @@ const MintCard = () => {
   const [totalTokensMinted, setTotalTokensMinted] = useState<bigint>(BigInt(0));
   const [Price, setPrice] = useState<bigint>(BigInt(0));
   const [maxSupply, setMaxSupply] = useState<bigint>(BigInt(0));
+  const [addressMinted, setAddressMinted] = useState<bigint>(BigInt(0));
   const [mintAmount, setMintAmount] = useState(1);
   const { error } = useConnect();
   const { chain } = useNetwork();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const [isMintSuccess, setIsMintSuccess] = useState(false);
   const [isErrors, setErrors] = useState(false);
 
@@ -62,7 +63,7 @@ const MintCard = () => {
   };
 
   const handleIncrement = () => {
-    if (mintAmount < 25) {
+    if (mintAmount < (BigInt(25) - addressMinted)) {
       setMintAmount(mintAmount + 1);
     }
   };
@@ -94,10 +95,26 @@ const MintCard = () => {
     setPrice(price as bigint);
   };
 
+  const getAddressMinted = async (address: string | undefined) => {
+    console.log(address);
+    if(address){
+      let minted = await readContract({
+        address: CYCGODS_ADDRESS,
+        abi: CYCGODS_ABI,
+        functionName: "balanceOf",
+        args: [address]
+      });
+      setAddressMinted(minted as bigint);
+    }
+  };
+
   useEffect(() => {
     getMinted();
     getMaxSupply();
     getPrice();
+    if(isConnected){
+      getAddressMinted(address);
+    }
 
     if (publicMintSuccess) {
       setIsMintSuccess(true);
@@ -130,7 +147,7 @@ const MintCard = () => {
           <p className="text-tertiary uppercase font-semibold text-xs">
             Supply
           </p>
-          <p className="font-primaryBold text-tertiary text-sm">{`${totalTokensMinted} / 5555`}</p>
+          <p className="font-primaryBold text-tertiary text-sm">{`${totalTokensMinted} / ${maxSupply}`}</p>
         </div>
         <div className="flex flex-col">
           <p className="text-tertiary uppercase font-semibold text-xs">Price</p>
